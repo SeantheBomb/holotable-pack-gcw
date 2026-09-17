@@ -1,0 +1,267 @@
+{
+ "name": "Galactic Civil War (fan pack)",
+ "terms": {
+  "force": "Force"
+ },
+ "factions": {
+  "coalition": {
+   "name": "Rebel Alliance"
+  },
+  "dominion": {
+   "name": "Galactic Empire"
+  }
+ },
+ "ships": {
+  "lancer": {
+   "name": "T-65 X-wing",
+   "abilityName": "Hope",
+   "abilityText": "After another friendly ship at range 0-3 is destroyed, you may perform a focus or boost action."
+  },
+  "bulwark": {
+   "name": "BTL-A4 Y-wing",
+   "abilityName": "Hope",
+   "abilityText": "After another friendly ship at range 0-3 is destroyed, you may perform a focus or boost action."
+  },
+  "dart": {
+   "name": "TIE/ln Fighter",
+   "abilityName": "Formed Up",
+   "abilityText": "At the end of the End Phase, if there is another friendly TIE/ln Fighter at range 0-1, you may remove 1 stress token."
+  },
+  "stiletto": {
+   "name": "TIE Advanced x1",
+   "abilityName": "Advanced Targeting Computer",
+   "abilityText": "While you perform a primary attack against a defender you have locked, roll 1 additional attack die and change 1 hit result to a crit result."
+  }
+ },
+ "pilots": {
+  "lancer-escort": {
+   "name": "Blue Squadron Escort",
+   "xws": "bluesquadronescort"
+  },
+  "lancer-veteran": {
+   "name": "Red Squadron Veteran",
+   "xws": "redsquadronveteran"
+  },
+  "lancer-shepherd": {
+   "name": "Garven Dreis",
+   "caption": "Red Leader",
+   "text": "After you spend a focus token, you may choose 1 friendly ship at range 1-3. That ship gains 1 focus token.",
+   "xws": "garvendreis-t65xwing"
+  },
+  "lancer-prodigy": {
+   "name": "Luke Skywalker",
+   "caption": "Red Five",
+   "text": "After you become the defender (before dice are rolled), you may recover 1 force.",
+   "xws": "lukeskywalker"
+  },
+  "lancer-deadeye": {
+   "name": "Wedge Antilles",
+   "caption": "Red Two",
+   "text": "While you perform an attack, the defender rolls 1 fewer defense die.",
+   "xws": "wedgeantilles"
+  },
+  "lancer-prodigy-sl": {
+   "name": "Luke Skywalker",
+   "caption": "Red Five",
+   "text": "After you are declared as the defender during an attack, you may recover 1 force.",
+   "xws": "lukeskywalker-swz106"
+  },
+  "bulwark-bomber": {
+   "name": "Gray Squadron Bomber",
+   "xws": "graysquadronbomber"
+  },
+  "bulwark-veteran": {
+   "name": "Gold Squadron Veteran",
+   "xws": "goldsquadronveteran"
+  },
+  "bulwark-overseer": {
+   "name": "Horton Salm",
+   "caption": "Gray Leader",
+   "text": "While you perform an attack, you may reroll 1 attack die for each other friendly ship at range 0-1 of the defender.",
+   "xws": "hortonsalm"
+  },
+  "bulwark-bulldog": {
+   "name": "Norra Wexley",
+   "caption": "Gold Nine",
+   "text": "While you defend, if there is an enemy ship at range 0-1, add 1 evade result to your dice results.",
+   "xws": "norrawexley-btla4ywing"
+  },
+  "dart-cadet": {
+   "name": "Academy Pilot",
+   "xws": "academypilot"
+  },
+  "dart-pilot": {
+   "name": "Obsidian Squadron Pilot",
+   "xws": "obsidiansquadronpilot"
+  },
+  "dart-ace": {
+   "name": "Black Squadron Ace",
+   "xws": "blacksquadronace"
+  },
+  "dart-nightowl": {
+   "name": "“Night Beast”",
+   "caption": "Obsidian Two",
+   "text": "After you fully execute a blue maneuver, you may perform a focus action.",
+   "xws": "nightbeast"
+  },
+  "dart-baron": {
+   "name": "Valen Rudor",
+   "caption": "Braggadocious Baron",
+   "text": "After a friendly ship at range 0-1 defends (after damage is resolved, if any), you may perform an action.",
+   "xws": "valenrudor"
+  },
+  "dart-vulture": {
+   "name": "Gideon Hask",
+   "caption": "Inferno Two",
+   "text": "While you perform an attack against a damaged defender, roll 1 additional attack die.",
+   "xws": "gideonhask"
+  },
+  "dart-brawler": {
+   "name": "“Mauler” Mithel",
+   "caption": "Black Two",
+   "text": "While you perform an attack at attack range 1, roll 1 additional attack die.",
+   "xws": "maulermithel"
+  },
+  "dart-needle": {
+   "name": "“Scourge” Skutu",
+   "caption": "Seasoned Veteran",
+   "text": "While you perform an attack against a defender in your bullseye arc, roll 1 additional attack die.",
+   "xws": "scourgeskutu"
+  },
+  "dart-packleader": {
+   "name": "“Howlrunner”",
+   "caption": "Obsidian Leader",
+   "text": "While a friendly ship at range 0-1 performs a primary attack, that ship may reroll 1 attack die.",
+   "xws": "howlrunner"
+  },
+  "stiletto-pilot": {
+   "name": "Tempest Squadron Pilot",
+   "xws": "tempestsquadronpilot"
+  },
+  "stiletto-ace": {
+   "name": "Storm Squadron Ace",
+   "xws": "stormsquadronace"
+  },
+  "stiletto-comet": {
+   "name": "Juno Eclipse",
+   "caption": "Corulag's Finest",
+   "text": "After you perform an action, you may perform a red boost action.",
+   "xws": "junoeclipse"
+  },
+  "stiletto-warlord": {
+   "name": "Darth Vader",
+   "caption": "Black Leader",
+   "text": "After you perform an action, you may spend 1 force to perform an action.",
+   "xws": "darthvader"
+  },
+  "stiletto-warlord-sl": {
+   "name": "Darth Vader",
+   "caption": "Black Leader",
+   "text": "After you perform an action, you may spend 1 force to perform an action.",
+   "xws": "darthvader-swz105"
+  }
+ },
+ "upgrades": {
+  "heavy-torpedoes": {
+   "name": "Proton Torpedoes",
+   "text": "Attack (lock): Spend 1 charge. Change 1 hit result to a crit result.",
+   "xws": "protontorpedoes"
+  },
+  "ion-missiles": {
+   "name": "Ion Missiles",
+   "text": "Attack (lock): Spend 1 charge. If this attack hits, spend 1 hit or crit result to cause the defender to suffer 1 hit damage. All remaining hit/crit results inflict ion tokens instead of damage.",
+   "xws": "ionmissiles"
+  },
+  "ion-turret": {
+   "name": "Ion Cannon Turret",
+   "text": "Attack: If this attack hits, spend 1 hit or crit result to cause the defender to suffer 1 hit damage. All remaining hit/crit results inflict ion tokens instead of damage.",
+   "xws": "ioncannonturret"
+  },
+  "dorsal-turret": {
+   "name": "Dorsal Turret",
+   "text": "Attack",
+   "xws": "dorsalturret"
+  },
+  "shield-upgrade": {
+   "name": "Shield Upgrade",
+   "xws": "shieldupgrade"
+  },
+  "hull-upgrade": {
+   "name": "Hull Upgrade",
+   "xws": "hullupgrade"
+  },
+  "afterburners": {
+   "name": "Afterburners",
+   "text": "After you fully execute a speed 3-5 maneuver, you may spend 1 charge to perform a boost action, even while stressed.",
+   "xws": "afterburners"
+  },
+  "elusive": {
+   "name": "Elusive",
+   "text": "While you defend, you may spend 1 charge to reroll 1 defense die. After you fully execute a red maneuver, recover 1 charge.",
+   "xws": "elusive"
+  },
+  "predator": {
+   "name": "Predator",
+   "text": "While you perform a primary attack, if the defender is in your bullseye arc, you may reroll 1 attack die.",
+   "xws": "predator"
+  },
+  "marksmanship": {
+   "name": "Marksmanship",
+   "text": "While you perform an attack, if the defender is in your bullseye arc, you may change 1 hit result to a crit result.",
+   "xws": "marksmanship"
+  },
+  "crack-shot": {
+   "name": "Crack Shot",
+   "text": "While you perform a primary attack, if the defender is in your bullseye arc, before the Neutralize Results step, you may spend 1 charge to cancel 1 evade result.",
+   "xws": "crackshot"
+  },
+  "outmaneuver": {
+   "name": "Outmaneuver",
+   "text": "While you perform a front arc attack, if you are not in the defender's firing arc, the defender rolls 1 fewer defense die.",
+   "xws": "outmaneuver"
+  },
+  "fire-control": {
+   "name": "Fire-Control System",
+   "text": "While you perform an attack, if you have a lock on the defender, you may reroll 1 attack die. If you do, you cannot spend your lock during this attack.",
+   "xws": "firecontrolsystem"
+  },
+  "instinctive-aim": {
+   "name": "Instinctive Aim",
+   "text": "While you perform a special attack, you may spend 1 force to ignore the focus or lock requirement.",
+   "xws": "instinctiveaim"
+  },
+  "evasive-insight": {
+   "name": "Brilliant Evasion",
+   "text": "While you defend, if you are not in the attacker's bullseye arc, you may spend 1 force to change 2 of your focus results to evade results.",
+   "xws": "brilliantevasion"
+  },
+  "wrath": {
+   "name": "Hate",
+   "text": "After you suffer 1 or more damage, recover that many force.",
+   "xws": "hate"
+  },
+  "field-droid": {
+   "name": "R2 Astromech",
+   "text": "After you reveal your dial, you may spend 1 charge and gain 1 disarm token to recover 1 shield.",
+   "xws": "r2astromech"
+  },
+  "ace-droid": {
+   "name": "R2-D2",
+   "text": "After you reveal your dial, you may spend 1 charge and gain 1 disarm token to recover 1 shield.",
+   "xws": "r2d2"
+  },
+  "salvage-droid": {
+   "name": "R5 Astromech",
+   "text": "Action: Spend 1 charge to repair 1 facedown damage card. Action: Repair 1 faceup Ship damage card.",
+   "xws": "r5astromech"
+  }
+ },
+ "credits": [
+  {
+   "what": "Card names and rules text dataset",
+   "author": "xwing-data2 contributors",
+   "license": "MIT (dataset structure); card text © its rights holders",
+   "url": "https://github.com/xwingtmg/xwing-data2"
+  }
+ ]
+}
