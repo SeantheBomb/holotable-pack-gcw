@@ -1,1 +1,4 @@
 xwing-data2
+dist
+node_modules
+*.original.glb
