@@ -1,0 +1,30 @@
+[
+ {
+  "ship": "lancer",
+  "what": "T-65 X-wing model — \"Star Wars: X-Wing\"",
+  "author": "Daniel",
+  "license": "CC-BY 4.0",
+  "url": "https://skfb.ly/LpFo"
+ },
+ {
+  "ship": "bulwark",
+  "what": "BTL-A4 Y-wing model — \"Star Wars: Y- Wing\"",
+  "author": "Daniel",
+  "license": "CC-BY 4.0",
+  "url": "https://skfb.ly/GDXR"
+ },
+ {
+  "ship": "dart",
+  "what": "TIE/ln Fighter model — \"Star Wars: TIE/ln Fighter\"",
+  "author": "Daniel",
+  "license": "CC-BY 4.0",
+  "url": "https://skfb.ly/oF7Cp"
+ },
+ {
+  "ship": "stiletto",
+  "what": "TIE Advanced x1 model — \"Darth Vader's TIE Advanced x1\"",
+  "author": "Mimmus",
+  "license": "CC-BY 4.0",
+  "url": "https://skfb.ly/o6EZo"
+ }
+]

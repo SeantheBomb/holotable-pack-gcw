@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Model Workshop</title>
+<script src="https://cdn.babylonjs.com/babylon.js"></script>
+<script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+<style>
+  :root { --holo: #5ec8ff; --line: rgba(94,200,255,.35); --ink: #d9ecff; --red: #ff5a4d; --amber: #ffc857; font-family: 'Segoe UI', system-ui, sans-serif; color: var(--ink); }
+  * { box-sizing: border-box; } body { margin: 0; background: #040a16; height: 100vh; display: grid; grid-template-columns: 380px 1fr; }
+  aside { padding: 18px; overflow-y: auto; border-right: 1px solid var(--line); display: flex; flex-direction: column; gap: 12px; }
+  h1 { margin: 0; font-weight: 300; letter-spacing: .3em; font-size: 1.1rem; color: var(--holo); text-transform: uppercase; }
+  .slot { border: 1px solid var(--line); padding: 9px 11px; cursor: pointer; background: rgba(10,30,55,.5); font-size: .85rem; }
+  .slot.on { border-color: var(--holo); box-shadow: 0 0 12px rgba(94,200,255,.3); } .slot b { display: block; } .slot small { opacity: .7; } .ok { color: #6dff8f; } .missing { color: var(--amber); }
+  label { display: flex; flex-direction: column; gap: 3px; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+  input, select, textarea, button { font: inherit; color: var(--ink); background: rgba(20,50,90,.55); border: 1px solid var(--line); border-radius: 3px; padding: 7px 10px; }
+  textarea { min-height: 54px; font-size: .78rem; } button { cursor: pointer; } button:hover:not(:disabled) { border-color: var(--holo); } button:disabled { opacity: .4; cursor: default; }
+  button.primary { background: rgba(30,120,190,.75); border-color: var(--holo); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+  .drop { border: 2px dashed var(--line); padding: 16px; text-align: center; font-size: .85rem; } .drop.over { border-color: var(--holo); background: rgba(94,200,255,.08); }
+  .check { flex-direction: row; align-items: flex-start; gap: 8px; text-transform: none; letter-spacing: 0; font-size: .78rem; line-height: 1.35; } .check input { margin-top: 2px; }
+  main { position: relative; } canvas { width: 100%; height: 100%; display: block; outline: none; }
+  .tune { position: absolute; left: 16px; right: 16px; bottom: 14px; display: flex; gap: 14px; align-items: flex-end; background: rgba(4,10,22,.8); border: 1px solid var(--line); padding: 10px 14px; }
+  .tune label { flex: 1; } .hint { position: absolute; top: 12px; left: 16px; font-size: .8rem; opacity: .8; max-width: 520px; line-height: 1.4; }
+  pre { margin: 0; font-size: .72rem; white-space: pre-wrap; max-height: 170px; overflow: auto; background: #020610; padding: 8px; border: 1px solid var(--line); } .err { color: var(--red); font-size: .82rem; }
+  .row { display: flex; gap: 6px; } .row > * { flex: 1; }
+</style>
+</head>
+<body>
+<aside>
+  <h1>Model Workshop</h1>
+  <div id="slots"></div>
+  <div class="drop" id="drop">Drop a <b>.glb</b> here for the selected ship<br><small>or click to browse</small><input type="file" id="file" accept=".glb" hidden></div>
+  <div id="picked" style="font-size:.8rem;opacity:.8"></div>
+  <label>Paste the Sketchfab credit line (auto-fills the fields)<textarea id="paste" placeholder='"Title" (https://skfb.ly/…) by Author is licensed under Creative Commons Attribution …'></textarea></label>
+  <label>Model title<input id="title"></label>
+  <div class="row"><label>Author<input id="author"></label><label>Licence<select id="license"></select></label></div>
+  <label>Source URL<input id="url" placeholder="https://…"></label>
+  <label class="check"><input type="checkbox" id="confirmed"> I checked that this mesh is the uploader's own work (not ripped from a game) and that its licence allows redistribution with credit.</label>
+  <button class="primary" id="upload" disabled>Import model</button>
+  <div class="err" id="err"></div>
+  <div class="row"><button id="remove">Remove model</button><button class="primary" id="publish">Publish pack</button></div>
+  <pre id="log" hidden></pre>
+</aside>
+<main>
+  <canvas id="view"></canvas>
+  <div class="hint">The square is the ship's base and the arrow is <b>forward</b>. Turn the model until its nose follows the arrow, and scale it until it sits nicely over the base (wings may overhang). Changes save automatically.</div>
+  <div class="tune">
+    <label>Facing <span id="yawv"></span><input type="range" id="yaw" min="-180" max="180" step="5" value="0"></label>
+    <button id="yaw90">+90°</button>
+    <label>Scale <span id="scalev"></span><input type="range" id="scale" min="0.5" max="2" step="0.05" value="1"></label>
+  </div>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+let S = null, selected = 'lancer', file = null, holder = null;
+
+const engine = new BABYLON.Engine($('view'), true);
+const scene = new BABYLON.Scene(engine);
+scene.clearColor = new BABYLON.Color4(0.015, 0.03, 0.07, 1);
+const cam = new BABYLON.ArcRotateCamera('c', -Math.PI / 2, 0.9, 16, BABYLON.Vector3.Zero(), scene);
+cam.attachControl($('view'), true); cam.wheelDeltaPercentage = 0.02; cam.lowerRadiusLimit = 5; cam.upperRadiusLimit = 40;
+new BABYLON.HemisphericLight('h', new BABYLON.Vector3(0, 1, 0), scene).intensity = 0.8;
+new BABYLON.DirectionalLight('d', new BABYLON.Vector3(-0.5, -0.8, 0.35), scene).intensity = 1.5;
+const line = (pts, color) => { const l = BABYLON.MeshBuilder.CreateLines('l', { points: pts.map(p => new BABYLON.Vector3(...p)) }, scene); l.color = color; return l; };
+line([[-2, 0, -2], [2, 0, -2], [2, 0, 2], [-2, 0, 2], [-2, 0, -2]], new BABYLON.Color3(0.4, 1, 0.8));
+line([[0, 0, 0], [0, 0, 5], [-0.6, 0, 4.2], [0, 0, 5], [0.6, 0, 4.2]], new BABYLON.Color3(1, 0.8, 0.3));
+engine.runRenderLoop(() => scene.render()); addEventListener('resize', () => engine.resize());
+
+const ship = () => S.ships.find(s => s.id === selected);
+function applyTuning() {
+  if (!holder) return;
+  const yaw = Number($('yaw').value), scale = Number($('scale').value);
+  holder.rotation.y = yaw * Math.PI / 180; holder.scaling.setAll(1.3 * scale);
+  $('yawv').textContent = yaw + '°'; $('scalev').textContent = scale.toFixed(2) + '×';
+}
+async function loadPreview() {
+  holder?.dispose(); holder = null;
+  const s = ship(); if (!s.present) return;
+  const res = await BABYLON.SceneLoader.ImportMeshAsync('', `/models/${s.id}.glb?t=${Date.now()}`, '', scene);
+  const root = res.meshes[0];
+  const { min, max } = root.getHierarchyBoundingVectors(true);
+  const k = 5 / (Math.max(max.x - min.x, max.z - min.z) || 1); // same normalisation the game uses
+  holder = new BABYLON.TransformNode('holder', scene); holder.position.y = 1.2;
+  root.parent = holder; root.scaling.scaleInPlace(k); root.position.subtractInPlace(min.add(max).scale(0.5 * k));
+  applyTuning();
+}
+function render() {
+  $('slots').replaceChildren(...S.ships.map(s => {
+    const d = document.createElement('div'); d.className = 'slot' + (s.id === selected ? ' on' : '');
+    d.innerHTML = `<b>${s.name}</b><small class="${s.present ? 'ok' : 'missing'}">${s.present ? `${(s.bytes / 1e6).toFixed(1)} MB · ${(s.settings.triangles ?? 0).toLocaleString()} triangles` : 'No model — using the placeholder mesh'}</small>${s.credit ? `<br><small>${s.credit.author} · ${s.credit.license}</small>` : ''}`;
+    d.onclick = () => select(s.id); return d;
+  }));
+  $('license').replaceChildren(...S.licenses.map(l => new Option(l, l)));
+  $('remove').disabled = !ship().present;
+}
+function select(id) {
+  selected = id; const s = ship();
+  $('yaw').value = Math.round((s.settings.yaw ?? 0) * 180 / Math.PI); $('scale').value = s.settings.scale ?? 1;
+  render(); loadPreview(); applyTuning();
+}
+const refresh = async () => { S = await (await fetch('/api/state')).json(); select(selected); };
+
+let saveTimer = 0;
+const tuned = () => { applyTuning(); clearTimeout(saveTimer); saveTimer = setTimeout(() => fetch('/api/settings', { method: 'POST', body: JSON.stringify({ ship: selected, yaw: Number($('yaw').value) * Math.PI / 180, scale: Number($('scale').value) }) }).then(r => r.json()).then(j => { if (j.state) { S = j.state; render(); } }), 400); };
+$('yaw').oninput = tuned; $('scale').oninput = tuned;
+$('yaw90').onclick = () => { let v = Number($('yaw').value) + 90; if (v > 180) v -= 360; $('yaw').value = v; tuned(); };
+
+const ready = () => { $('upload').disabled = !(file && $('author').value.trim() && $('url').value.trim() && $('confirmed').checked); };
+const pick = f => { if (!f) return; file = f; $('picked').textContent = `${f.name} · ${(f.size / 1e6).toFixed(1)} MB → ${ship().name}`; ready(); };
+$('drop').onclick = () => $('file').click(); $('file').onchange = e => pick(e.target.files[0]);
+$('drop').ondragover = e => { e.preventDefault(); $('drop').classList.add('over'); }; $('drop').ondragleave = () => $('drop').classList.remove('over');
+$('drop').ondrop = e => { e.preventDefault(); $('drop').classList.remove('over'); pick(e.dataTransfer.files[0]); };
+for (const id of ['author', 'url', 'title']) $(id).oninput = ready; $('confirmed').onchange = ready;
+$('paste').oninput = () => {
+  const m = $('paste').value.match(/"(.+?)"\s*\((https?:\/\/[^)\s]+)\)\s*by\s+(.+?)\s+is licensed under\s+(.+?)(?:\s*\(|$)/i);
+  if (!m) return;
+  $('title').value = m[1]; $('url').value = m[2]; $('author').value = m[3];
+  const lic = m[4].toLowerCase();
+  if (/noncommercial|noderiv/.test(lic)) { $('err').textContent = 'That licence is NonCommercial/NoDerivatives — it cannot be used here.'; return; }
+  $('license').value = /sharealike/.test(lic) ? 'CC-BY-SA 4.0' : /cc0|public domain/.test(lic) ? 'CC0 1.0' : 'CC-BY 4.0';
+  $('err').textContent = ''; ready();
+};
+$('upload').onclick = async () => {
+  $('err').textContent = ''; $('upload').disabled = true; $('upload').textContent = 'Optimising…';
+  const q = new URLSearchParams({ ship: selected, title: $('title').value, author: $('author').value, license: $('license').value, url: $('url').value, confirmed: 'yes' });
+  const j = await (await fetch('/api/upload?' + q, { method: 'POST', body: file })).json();
+  $('upload').textContent = 'Import model';
+  if (j.error) { $('err').textContent = j.error; ready(); return; }
+  $('log').hidden = false; $('log').textContent = j.log.join('\n');
+  file = null; $('picked').textContent = ''; $('paste').value = ''; $('confirmed').checked = false; S = j.state; select(selected);
+};
+$('remove').onclick = async () => { if (!confirm(`Remove the ${ship().name} model?`)) return; const j = await (await fetch('/api/remove', { method: 'POST', body: JSON.stringify({ ship: selected }) })).json(); S = j.state; select(selected); };
+$('publish').onclick = async () => {
+  if (!confirm('Deploy the pack to Cloudflare and push it to GitHub?')) return;
+  $('publish').disabled = true; $('log').hidden = false; $('log').textContent = '';
+  const res = await fetch('/api/publish', { method: 'POST' }); const reader = res.body.getReader(); const dec = new TextDecoder();
+  for (;;) { const { done, value } = await reader.read(); if (done) break; $('log').textContent += dec.decode(value); $('log').scrollTop = 1e9; }
+  $('publish').disabled = false;
+};
+refresh();
+</script>
+</body>
+</html>

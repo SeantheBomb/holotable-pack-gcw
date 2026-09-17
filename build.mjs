@@ -25,11 +25,12 @@ const MODELS = { lancer: 'models/lancer.glb', bulwark: 'models/bulwark.glb', dar
 const clean = t => (t ?? '').replace(/\[Critical Hit\]/g, 'crit').replace(/\[([^\]]+)\]/g, (_, w) => w.toLowerCase());
 const pack = { name: 'Galactic Civil War (fan pack)', terms: { force: 'Force' }, factions: { coalition: { name: 'Rebel Alliance' }, dominion: { name: 'Galactic Empire' } }, ships: {}, pilots: {}, upgrades: {}, credits: [] };
 
+const tuning = existsSync('models/models.json') ? JSON.parse(readFileSync('models/models.json', 'utf8')) : {};
 const pilotIndex = new Map();
 for (const [id, [faction, file]] of Object.entries(SHIPS)) {
   const ship = JSON.parse(readFileSync(join(data, 'pilots', faction, `${file}.json`), 'utf8'));
   const ability = ship.pilots.find(p => p.shipAbility)?.shipAbility;
-  pack.ships[id] = { name: ship.name, ...(ability ? { abilityName: ability.name, abilityText: clean(ability.text) } : {}), ...(existsSync(MODELS[id]) ? { model: MODELS[id] } : {}) };
+  pack.ships[id] = { name: ship.name, ...(ability ? { abilityName: ability.name, abilityText: clean(ability.text) } : {}), ...(existsSync(MODELS[id]) ? { model: `${MODELS[id]}?v=${tuning[id]?.bytes ?? 0}`, modelYaw: tuning[id]?.yaw ?? 0, modelScale: tuning[id]?.scale ?? 1 } : {}) };
   for (const p of ship.pilots) pilotIndex.set(p.xws, p);
 }
 for (const [id, xws] of Object.entries(PILOTS)) {

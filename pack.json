@@ -15,22 +15,34 @@
   "lancer": {
    "name": "T-65 X-wing",
    "abilityName": "Hope",
-   "abilityText": "After another friendly ship at range 0-3 is destroyed, you may perform a focus or boost action."
+   "abilityText": "After another friendly ship at range 0-3 is destroyed, you may perform a focus or boost action.",
+   "model": "models/lancer.glb?v=1500668",
+   "modelYaw": 0,
+   "modelScale": 1
   },
   "bulwark": {
    "name": "BTL-A4 Y-wing",
    "abilityName": "Hope",
-   "abilityText": "After another friendly ship at range 0-3 is destroyed, you may perform a focus or boost action."
+   "abilityText": "After another friendly ship at range 0-3 is destroyed, you may perform a focus or boost action.",
+   "model": "models/bulwark.glb?v=1165276",
+   "modelYaw": 0,
+   "modelScale": 1
   },
   "dart": {
    "name": "TIE/ln Fighter",
    "abilityName": "Formed Up",
-   "abilityText": "At the end of the End Phase, if there is another friendly TIE/ln Fighter at range 0-1, you may remove 1 stress token."
+   "abilityText": "At the end of the End Phase, if there is another friendly TIE/ln Fighter at range 0-1, you may remove 1 stress token.",
+   "model": "models/dart.glb?v=1980676",
+   "modelYaw": 0,
+   "modelScale": 0.7
   },
   "stiletto": {
    "name": "TIE Advanced x1",
    "abilityName": "Advanced Targeting Computer",
-   "abilityText": "While you perform a primary attack against a defender you have locked, roll 1 additional attack die and change 1 hit result to a crit result."
+   "abilityText": "While you perform a primary attack against a defender you have locked, roll 1 additional attack die and change 1 hit result to a crit result.",
+   "model": "models/stiletto.glb?v=4225988",
+   "modelYaw": 0,
+   "modelScale": 0.85
   }
  },
  "pilots": {
@@ -262,6 +274,34 @@
    "author": "xwing-data2 contributors",
    "license": "MIT (dataset structure); card text © its rights holders",
    "url": "https://github.com/xwingtmg/xwing-data2"
+  },
+  {
+   "ship": "lancer",
+   "what": "T-65 X-wing model — \"Star Wars: X-Wing\"",
+   "author": "Daniel",
+   "license": "CC-BY 4.0",
+   "url": "https://skfb.ly/LpFo"
+  },
+  {
+   "ship": "bulwark",
+   "what": "BTL-A4 Y-wing model — \"Star Wars: Y- Wing\"",
+   "author": "Daniel",
+   "license": "CC-BY 4.0",
+   "url": "https://skfb.ly/GDXR"
+  },
+  {
+   "ship": "dart",
+   "what": "TIE/ln Fighter model — \"Star Wars: TIE/ln Fighter\"",
+   "author": "Daniel",
+   "license": "CC-BY 4.0",
+   "url": "https://skfb.ly/oF7Cp"
+  },
+  {
+   "ship": "stiletto",
+   "what": "TIE Advanced x1 model — \"Darth Vader's TIE Advanced x1\"",
+   "author": "Mimmus",
+   "license": "CC-BY 4.0",
+   "url": "https://skfb.ly/o6EZo"
   }
  ]
 }

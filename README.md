@@ -15,24 +15,22 @@ git clone --depth 1 https://github.com/xwingtmg/xwing-data2
 node build.mjs ./xwing-data2
 ```
 
-## Models
+## Models — use the workshop (no agent, no command line beyond one start command)
 
-`models/` is empty by default. To add ships, drop glTF binaries named by engine ship id and re-run the build:
-
-| File | Ship | Candidate (CC-BY, verify provenance + credit the author) |
-|---|---|---|
-| `models/lancer.glb` | T-65 X-wing | https://sketchfab.com/3d-models/a93f607a94d747568371b8910a81fb12 |
-| `models/bulwark.glb` | BTL-A4 Y-wing | https://sketchfab.com/3d-models/b8bb6476b1b14ba48987c7efc7b7087a |
-| `models/dart.glb` | TIE/ln | https://sketchfab.com/3d-models/79d9403f15334c129ea5454daffe6b5c |
-| `models/stiletto.glb` | TIE Advanced x1 | https://sketchfab.com/3d-models/83654f360e1e4c72b716a2a60ed09031 |
-
-Rules for models: CC-BY or more permissive only (no NC/ND), **never game rips**, confirm the mesh is the
-uploader's own work, decimate to ~15–25k triangles, and list every model in `models/CREDITS.json`:
-
-```json
-[{ "what": "T-65 model", "author": "Name", "license": "CC-BY 4.0", "url": "https://…" }]
+```bash
+npm install
+npm run workshop
 ```
 
-The engine auto-scales models to the base size; use `modelYaw` / `modelScale` in `pack.json` if one needs a nudge
-(models should point +Z). A CC licence covers the modeller's mesh only — it cannot grant rights in the
-underlying ship design, which is why this pack lives apart from the engine.
+Open http://localhost:5190, pick a ship slot, drop in a `.glb`, paste the Sketchfab credit line (it fills in
+title / author / licence / URL), tick the provenance box and press **Import model**. The workshop keeps your
+original locally, decimates to ~30–45k triangles, recompresses textures to WebP, records the credit in
+`models/CREDITS.json`, and rebuilds `pack.json`. Line the nose up with the arrow and size it over the base with
+the sliders, then press **Publish pack** — that deploys to Cloudflare and pushes to GitHub. Players see the new
+models on their next page load, and every credit appears in the game's *Credits & legal* screen.
+
+Rules for models: CC-BY / CC-BY-SA / CC0 only (no NC/ND), **never game rips**, and confirm the mesh is the
+uploader's own work. A CC licence covers the modeller's mesh only — it cannot grant rights in the underlying
+ship design, which is why this pack lives apart from the engine.
+
+Scripted alternative: `node workshop/ingest.mjs <lancer|bulwark|dart|stiletto> file.glb --title … --author … --license "CC-BY 4.0" --url …`

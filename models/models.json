@@ -1,0 +1,26 @@
+{
+ "lancer": {
+  "yaw": 0,
+  "scale": 1,
+  "triangles": 36732,
+  "bytes": 1500668
+ },
+ "bulwark": {
+  "yaw": 0,
+  "scale": 1,
+  "triangles": 30949,
+  "bytes": 1165276
+ },
+ "dart": {
+  "yaw": 0,
+  "scale": 0.7,
+  "triangles": 43180,
+  "bytes": 1980676
+ },
+ "stiletto": {
+  "yaw": 0,
+  "scale": 0.85,
+  "triangles": 44126,
+  "bytes": 4225988
+ }
+}

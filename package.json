@@ -1,0 +1,17 @@
+{
+  "name": "holotable-pack-gcw",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "workshop": "node workshop/server.mjs",
+    "build": "node publish.mjs --no-deploy",
+    "publish-pack": "node publish.mjs"
+  },
+  "devDependencies": {
+    "@gltf-transform/core": "^4.1.0",
+    "@gltf-transform/extensions": "^4.1.0",
+    "@gltf-transform/functions": "^4.1.0",
+    "meshoptimizer": "^0.22.0",
+    "sharp": "^0.33.5"
+  }
+}
